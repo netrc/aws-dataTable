@@ -1,17 +1,18 @@
-
-AWS = require('aws-sdk');
-AWS.config.update({ region: 'us-east-1' }); // var dynamoDBConfiguration = { "accessKeyId": "AccessKey", "secretAccessKey": "Secratekey",  "region": "us-west-2" };
+var AWS = require('aws-sdk');
+    AWS.config.update({ region: 'us-east-1' }); // var dynamoDBConfiguration = { "accessKeyId": "AccessKey", "secretAccessKey": "Secratekey",  "region": "us-west-2" };
 var ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
 
 exports.handler =  (event, context, callback) => {   //async ; can be done, but not sure about returns....
+    var b = JSON.parse(event.body);   // TODO: try/catch
     var params = {
       TableName: 'dataTable',
       Item: {
-        userSourceID : {S: 'ricSump1'},
+        userSourceID : {S: b.userSourceID},
         epochSeconds : {N: (new Date()).getTime().toString()},
-        dedDepth : {N: '5'}
+        dedDepth : {N: b.dedDepth}
       }
     };
+
     ddb.putItem(params, function(err, data) {
       if (err) {
         console.log("ddb putItems Error" + err);
