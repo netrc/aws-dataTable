@@ -9,7 +9,7 @@ H="Content-type: application/json"
 D=$(cat <<EOJSON
   { 
     "userSourceID": "ricSump2", 
-    "dedDepth":"3"
+    "dedDepth":"6"
   }
 EOJSON
 )
